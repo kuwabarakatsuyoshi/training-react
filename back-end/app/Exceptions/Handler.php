@@ -3,6 +3,10 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+<<<<<<< HEAD
+=======
+use Illuminate\Validation\ValidationException;
+>>>>>>> upstream/main
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -38,4 +42,35 @@ class Handler extends ExceptionHandler
             //
         });
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     *
+     * @param  mixed  $request
+     * @param  ValidationException  $exception
+     */
+    protected function invalidJson($request, ValidationException $exception)
+    {
+        return response()->json([
+            'message' => $exception->getMessage(),
+            'errors' => $this->transformErrors($exception),
+
+        ], $exception->status);
+    }
+
+    /**
+     * @param ValidationException $exception
+     * @return \stdClass
+     */
+    private function transformErrors(ValidationException $exception)
+    {
+        $error = new \stdClass();
+        foreach ($exception->errors() as $field => $message) {
+            $error->{$field} = $message[0];
+        }
+
+        return $error;
+    }
+>>>>>>> upstream/main
 }
